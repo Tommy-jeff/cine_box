@@ -143,5 +143,46 @@ final class AuthServiceProvider
 
 String _$authServiceHash() => r'0ec29a3b3d1d112a0e94b59b92eda9ba461fa04d';
 
+@ProviderFor(tmdbService)
+const tmdbServiceProvider = TmdbServiceProvider._();
+
+final class TmdbServiceProvider
+    extends $FunctionalProvider<TmdbService, TmdbService, TmdbService>
+    with $Provider<TmdbService> {
+  const TmdbServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tmdbServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tmdbServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<TmdbService> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  TmdbService create(Ref ref) {
+    return tmdbService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TmdbService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TmdbService>(value),
+    );
+  }
+}
+
+String _$tmdbServiceHash() => r'5d47855510e06c00e5d8cdc6c7ed012e79720480';
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

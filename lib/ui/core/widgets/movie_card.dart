@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_box/ui/core/themes/colors.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MovieCard extends ConsumerStatefulWidget {
-  const MovieCard({super.key});
+  final int id;
+  final String title;
+  final int year;
+  final String imageUrl;
+  final bool isFavorite;
+  final VoidCallback? onFavoriteTap;
+
+  const MovieCard({
+    super.key,
+    required this.id,
+    required this.title,
+    required this.year,
+    required this.imageUrl,
+    required this.isFavorite,
+    this.onFavoriteTap,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MovieCardState();
@@ -14,6 +31,7 @@ class MovieCard extends ConsumerStatefulWidget {
 class _MovieCardState extends ConsumerState<MovieCard> {
   @override
   Widget build(BuildContext context) {
+
     return Stack(
       children: [
         SizedBox(
@@ -23,8 +41,7 @@ class _MovieCardState extends ConsumerState<MovieCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CachedNetworkImage(
-                imageUrl:
-                    'https://preview.redd.it/official-poster-for-joker-folie-%C3%A0-deux-v0-ldx1nae0ymjd1.jpeg?width=1080&crop=smart&auto=webp&s=1b6ef4d8072744cb92d8ebfeb86ff7e492ef0727',
+                imageUrl: widget.imageUrl,
                 imageBuilder: (context, imageProvider) {
                   return Container(
                     width: 148,
@@ -60,7 +77,7 @@ class _MovieCardState extends ConsumerState<MovieCard> {
                 height: 30,
               ),
               Text(
-                'Coringa 2',
+                widget.title,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -69,7 +86,7 @@ class _MovieCardState extends ConsumerState<MovieCard> {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                'Coringa 2',
+                '${widget.year}',
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w400,
@@ -88,8 +105,10 @@ class _MovieCardState extends ConsumerState<MovieCard> {
             child: CircleAvatar(
               backgroundColor: Colors.white,
               child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.favorite_outline, size: 20),
+                onPressed: widget.onFavoriteTap,
+                icon: widget.isFavorite
+                    ? Icon(Icons.favorite, size: 20)
+                    : Icon(Icons.favorite_outline, size: 20),
                 color: AppColors.redColor,
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:cine_box/ui/movies/movies_view_model.dart';
 import 'package:cine_box/ui/movies/widgets/genres_box.dart';
 import 'package:cine_box/ui/movies/widgets/movies_appbar.dart';
 import 'package:cine_box/ui/movies/widgets/movies_by_category.dart';
@@ -14,8 +15,19 @@ class MoviesScreen extends ConsumerStatefulWidget {
 }
 
 class _MoviesScreenState extends ConsumerState<MoviesScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      ref.read(moviesViewModelProvider.notifier).fetchMoviesByCategory();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final moviesViewEnum = ref.watch(moviesViewModelProvider);
+
     return CustomScrollView(
       slivers: [
         MoviesAppbar(),
@@ -26,8 +38,12 @@ class _MoviesScreenState extends ConsumerState<MoviesScreen> {
           ),
         ),
         SliverToBoxAdapter(
-          child: MoviesBySearch(),
-        )
+          child: switch (moviesViewEnum) {
+            MoviesViewEnum.byCategory => MoviesByCategory(),
+            MoviesViewEnum.bySearch => MoviesBySearch(),
+            MoviesViewEnum.byGenre => MoviesByGender(),
+          },
+        ),
       ],
     );
   }

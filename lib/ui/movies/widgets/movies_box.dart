@@ -1,10 +1,20 @@
+import 'dart:developer';
+
+import 'package:cine_box/domain/models/movie.dart';
 import 'package:cine_box/ui/core/widgets/movie_card.dart';
 import 'package:flutter/material.dart';
 
 class MoviesBox extends StatelessWidget {
   final String title;
   final bool vertical;
-  const MoviesBox({super.key, required this.title,  this.vertical = false});
+  final List<Movie> movies;
+
+  const MoviesBox({
+    super.key,
+    required this.title,
+    this.vertical = false,
+    required this.movies,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +39,20 @@ class MoviesBox extends StatelessWidget {
               runSpacing: 20,
               runAlignment: WrapAlignment.center,
               children: [
-                MovieCard(),
-                MovieCard(),
-                MovieCard(),
-                MovieCard(),
-                MovieCard(),
-                MovieCard(),
-                MovieCard(),
-                MovieCard(),
-                MovieCard(),
+                for (var movie in movies)
+                  MovieCard(
+                    id: movie.id,
+                    title: movie.title,
+                    year:
+                        movie.releaseDate != null &&
+                            movie.releaseDate!.isNotEmpty
+                        ? DateTime.parse(movie.releaseDate!).year
+                        : DateTime.now().year,
+                    imageUrl:
+                        'https://image.tmdb.org/t/p/w154/${movie.posterPath}' ??
+                        '',
+                    isFavorite: movie.isFavorite,
+                  ),
               ],
             ),
           ),
@@ -45,14 +60,28 @@ class MoviesBox extends StatelessWidget {
             width: MediaQuery.sizeOf(context).width,
             height: 253,
             child: ListView.builder(
-              itemCount: 30,
+              itemCount: movies.length,
               scrollDirection: Axis.horizontal,
               physics: BouncingScrollPhysics(),
               padding: EdgeInsets.symmetric(horizontal: 20),
               itemBuilder: (context, index) {
+                var movie = movies[index];
                 return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 8),
-                    child: MovieCard());
+                  margin: EdgeInsets.symmetric(horizontal: 8),
+                  child: MovieCard(
+                    id: movie.id,
+                    title: movie.title,
+                    year:
+                        movie.releaseDate != null &&
+                            movie.releaseDate!.isNotEmpty
+                        ? DateTime.parse(movie.releaseDate!).year
+                        : DateTime.now().year,
+                    imageUrl:
+                        'https://image.tmdb.org/t/p/w154/${movie.posterPath}' ??
+                        '',
+                    isFavorite: movie.isFavorite,
+                  ),
+                );
               },
             ),
           ),

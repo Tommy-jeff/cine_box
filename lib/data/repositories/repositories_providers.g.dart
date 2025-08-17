@@ -47,5 +47,46 @@ final class AuthRepositoryProvider
 
 String _$authRepositoryHash() => r'd0da329fe3c1be1bccbe0aafde561a9ddb372200';
 
+@ProviderFor(tmdbRepository)
+const tmdbRepositoryProvider = TmdbRepositoryProvider._();
+
+final class TmdbRepositoryProvider
+    extends $FunctionalProvider<TmdbRepository, TmdbRepository, TmdbRepository>
+    with $Provider<TmdbRepository> {
+  const TmdbRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tmdbRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tmdbRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<TmdbRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  TmdbRepository create(Ref ref) {
+    return tmdbRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TmdbRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TmdbRepository>(value),
+    );
+  }
+}
+
+String _$tmdbRepositoryHash() => r'e144c05a6ec8ba1161c1c17d6395c6958014d912';
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

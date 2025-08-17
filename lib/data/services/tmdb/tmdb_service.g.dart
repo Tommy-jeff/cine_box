@@ -27,7 +27,7 @@ class _TmdbService implements TmdbService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'genre/movie/list',
+            '/genre/movie/list',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -48,13 +48,11 @@ class _TmdbService implements TmdbService {
   Future<MovieResponse> getPopularMovies({
     String language = 'pt-BR',
     int page = 1,
-    String region = 'BR',
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'language': language,
       r'page': page,
-      r'region': region,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -83,13 +81,11 @@ class _TmdbService implements TmdbService {
   Future<MovieResponse> getTopRatedMovies({
     String language = 'pt-BR',
     int page = 1,
-    String region = 'BR',
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'language': language,
       r'page': page,
-      r'region': region,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -118,13 +114,11 @@ class _TmdbService implements TmdbService {
   Future<MovieResponse> getNowPlayingMovies({
     String language = 'pt-BR',
     int page = 1,
-    String region = 'BR',
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'language': language,
       r'page': page,
-      r'region': region,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -153,13 +147,11 @@ class _TmdbService implements TmdbService {
   Future<MovieResponse> getUpcomingMovies({
     String language = 'pt-BR',
     int page = 1,
-    String region = 'BR',
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'language': language,
       r'page': page,
-      r'region': region,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -189,14 +181,12 @@ class _TmdbService implements TmdbService {
     required String query,
     String language = 'pt-BR',
     int page = 1,
-    String region = 'BR',
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'query': query,
       r'language': language,
       r'page': page,
-      r'region': region,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -225,18 +215,17 @@ class _TmdbService implements TmdbService {
   Future<MovieResponse> discoverMovies({
     String language = 'pt-BR',
     int page = 1,
-    String region = 'BR',
     String sortBt = 'popularity.desc',
-    String withGenres,
+    String? withGenres,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'language': language,
       r'page': page,
-      r'region': region,
       r'sort_by': sortBt,
       r'with_genres': withGenres,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<MovieResponse>(
@@ -261,10 +250,10 @@ class _TmdbService implements TmdbService {
   }
 
   @override
-  Future<MovieDetailsResponse> getMovieDetails({
+  Future<MovieDetailsResponse> getMovieDetails(
+    int movieId, {
     String language = 'pt-BR',
     int page = 1,
-    int movieId,
     String appendToResponse = '',
   }) async {
     final _extra = <String, dynamic>{};

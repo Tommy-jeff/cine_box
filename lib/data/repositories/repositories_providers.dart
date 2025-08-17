@@ -2,6 +2,8 @@
 
 import 'package:cine_box/data/repositories/auth/auth_repository.dart';
 import 'package:cine_box/data/repositories/auth/auth_repository_impl.dart';
+import 'package:cine_box/data/repositories/tmdb/tmbd_repository_impl.dart';
+import 'package:cine_box/data/repositories/tmdb/tmdb_repository.dart';
 import 'package:cine_box/data/services/services_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -14,4 +16,9 @@ AuthRepository authRepository(Ref ref){
       googleSigninService: ref.read(googleSignInServiceProvider),
       authService:  ref.read(authServiceProvider)
   );
+}
+
+@Riverpod()
+TmdbRepository tmdbRepository(Ref ref){
+  return TmdbRepositoryImpl(tmdbService: ref.read(tmdbServiceProvider));
 }

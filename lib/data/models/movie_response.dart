@@ -8,11 +8,11 @@ part 'movie_response.g.dart';
 class MovieResponse{
 
   final int page;
-  final List<MovieItem> movies;
-  final int totalResults;
-  final int totalPages;
+  final List<MovieItem> results;
+  final int? totalResults;
+  final int? totalPages;
 
-  MovieResponse(this.movies, this.page, this.totalResults, this.totalPages);
+  MovieResponse({this.totalPages, this.totalResults, required this.page, required this.results});
 
   factory MovieResponse.fromJson(Map<String, dynamic> json) => _$MovieResponseFromJson(json);
 

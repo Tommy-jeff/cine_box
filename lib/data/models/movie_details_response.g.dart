@@ -11,10 +11,10 @@ MovieDetailsResponse _$MovieDetailsResponseFromJson(
 ) => MovieDetailsResponse(
   title: json['title'] as String,
   overview: json['overview'] as String,
-  releaseDate: json['releaseDate'] as String,
+  releaseDate: json['release_date'] as String,
   runtime: (json['runtime'] as num).toInt(),
-  voteAverage: (json['voteAverage'] as num).toDouble(),
-  voteCount: (json['voteCount'] as num).toInt(),
+  voteAverage: (json['vote_average'] as num).toDouble(),
+  voteCount: (json['vote_count'] as num).toInt(),
   images: Images.fromJson(json['images'] as Map<String, dynamic>),
   credits: Credits.fromJson(json['credits'] as Map<String, dynamic>),
   genres: (json['genres'] as List<dynamic>)
@@ -28,10 +28,10 @@ Map<String, dynamic> _$MovieDetailsResponseToJson(
 ) => <String, dynamic>{
   'title': instance.title,
   'overview': instance.overview,
-  'releaseDate': instance.releaseDate,
+  'release_date': instance.releaseDate,
   'runtime': instance.runtime,
-  'voteAverage': instance.voteAverage,
-  'voteCount': instance.voteCount,
+  'vote_average': instance.voteAverage,
+  'vote_count': instance.voteCount,
   'images': instance.images,
   'credits': instance.credits,
   'genres': instance.genres,
@@ -63,14 +63,14 @@ Map<String, dynamic> _$ImagesToJson(Images instance) => <String, dynamic>{
 CastResponse _$CastResponseFromJson(Map<String, dynamic> json) => CastResponse(
   name: json['name'] as String,
   character: json['character'] as String,
-  profilePath: json['profilePath'] as String? ?? '',
+  profilePath: json['profile_path'] as String? ?? '',
 );
 
 Map<String, dynamic> _$CastResponseToJson(CastResponse instance) =>
     <String, dynamic>{
       'name': instance.name,
       'character': instance.character,
-      'profilePath': instance.profilePath,
+      'profile_path': instance.profilePath,
     };
 
 MovieDetailsGenreResponse _$MovieDetailsGenreResponseFromJson(
@@ -86,11 +86,11 @@ Map<String, dynamic> _$MovieDetailsGenreResponseToJson(
 
 MovieDetailsBackdropResponse _$MovieDetailsBackdropResponseFromJson(
   Map<String, dynamic> json,
-) => MovieDetailsBackdropResponse(filePath: json['filePath'] as String);
+) => MovieDetailsBackdropResponse(filePath: json['file_path'] as String);
 
 Map<String, dynamic> _$MovieDetailsBackdropResponseToJson(
   MovieDetailsBackdropResponse instance,
-) => <String, dynamic>{'filePath': instance.filePath};
+) => <String, dynamic>{'file_path': instance.filePath};
 
 Videos _$VideosFromJson(Map<String, dynamic> json) => Videos(
   results: (json['results'] as List<dynamic>)

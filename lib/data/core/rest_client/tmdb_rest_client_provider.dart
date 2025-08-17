@@ -8,7 +8,7 @@ part 'tmdb_rest_client_provider.g.dart';
 Dio tmdbRestClient(Ref ref) {
   Dio dio = Dio(
     BaseOptions(
-        baseUrl: Env.backendBaseUrl,
+        baseUrl: Env.theMovieDbBaseUrl,
         connectTimeout: const Duration(seconds: 60),
         receiveTimeout: const Duration(seconds: 60)
     ),
