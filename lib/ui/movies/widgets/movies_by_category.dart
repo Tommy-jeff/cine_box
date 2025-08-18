@@ -14,7 +14,7 @@ class MoviesByCategory extends ConsumerWidget {
 
     return movies.when(
       loading: () => Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.only(top: 250.0),
         child: Center(
           child: LoadingAnimationWidget.threeArchedCircle(
             color: AppColors.dartGrey,

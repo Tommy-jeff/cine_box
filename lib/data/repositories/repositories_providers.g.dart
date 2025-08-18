@@ -45,7 +45,7 @@ final class AuthRepositoryProvider
   }
 }
 
-String _$authRepositoryHash() => r'd0da329fe3c1be1bccbe0aafde561a9ddb372200';
+String _$authRepositoryHash() => r'd948369152c51a69ccd27ebef356a0611ffd7e1a';
 
 @ProviderFor(tmdbRepository)
 const tmdbRepositoryProvider = TmdbRepositoryProvider._();
@@ -86,7 +86,53 @@ final class TmdbRepositoryProvider
   }
 }
 
-String _$tmdbRepositoryHash() => r'e144c05a6ec8ba1161c1c17d6395c6958014d912';
+String _$tmdbRepositoryHash() => r'8575399c7b57ab3c8330cd3256b551933ec80bd2';
+
+@ProviderFor(moviesRepository)
+const moviesRepositoryProvider = MoviesRepositoryProvider._();
+
+final class MoviesRepositoryProvider
+    extends
+        $FunctionalProvider<
+          MoviesRepository,
+          MoviesRepository,
+          MoviesRepository
+        >
+    with $Provider<MoviesRepository> {
+  const MoviesRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'moviesRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$moviesRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<MoviesRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  MoviesRepository create(Ref ref) {
+    return moviesRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(MoviesRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<MoviesRepository>(value),
+    );
+  }
+}
+
+String _$moviesRepositoryHash() => r'1f3b0f9c718848d238137c769d5d8854177a1116';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

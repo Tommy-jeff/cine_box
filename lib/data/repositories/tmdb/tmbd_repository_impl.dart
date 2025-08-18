@@ -124,4 +124,42 @@ class TmdbRepositoryImpl implements TmdbRepository {
       );
     }
   }
+
+  @override
+  Future<Result<List<Movie>>> getMoviesByGenre({required int genreId}) async {
+    try {
+      final data = await _tmdbService.discoverMovies(
+        withGenres: genreId.toString(),
+      );
+
+      return Success(MovieMapper.mapToMovies(data));
+    } on DioException catch (e, s) {
+      log(
+        'Error in getMoviesByGenre',
+        error: e,
+        stackTrace: s,
+      );
+      return Failure(
+        DataException(message: 'Error in getMoviesByGenre'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<List<Movie>>> searchMovies({required String query}) async {
+    try {
+      final data = await _tmdbService.searchMovies(query: query);
+
+      return Success(MovieMapper.mapToMovies(data));
+    } on DioException catch (e, s) {
+      log(
+        'Error in searchMovies',
+        error: e,
+        stackTrace: s,
+      );
+      return Failure(
+        DataException(message: 'Error in searchMovies'),
+      );
+    }
+  }
 }

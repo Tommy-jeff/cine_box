@@ -1,14 +1,20 @@
 import 'package:cine_box/ui/core/themes/colors.dart';
 import 'package:cine_box/ui/movies/commands/get_genres_command.dart';
+import 'package:cine_box/ui/movies/movies_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class GenresBox extends ConsumerWidget {
-  var selectedGenre = ValueNotifier(0);
+class GenresBox extends ConsumerStatefulWidget {
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _GenresBoxState();
+}
+
+class _GenresBoxState extends ConsumerState<GenresBox> {
+  final selectedGenre = ValueNotifier(0);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final genres = ref.watch(getGenresCommandProvider);
 
     return genres.when(
@@ -32,7 +38,19 @@ class GenresBox extends ConsumerWidget {
               return InkWell(
                 borderRadius: BorderRadius.circular(20),
                 enableFeedback: false,
-                onTap: () => selectedGenre.value = genre.id,
+                onTap: () {
+                  if (selectedGenre.value == genre.id) {
+                    selectedGenre.value = 0;
+                    ref
+                        .read(moviesViewModelProvider.notifier)
+                        .fetchMoviesByCategory();
+                    return;
+                  }
+                  selectedGenre.value = genre.id;
+                  ref
+                      .read(moviesViewModelProvider.notifier)
+                      .fetchMoviesByGenre(genreId: genre.id);
+                },
                 child: ValueListenableBuilder(
                   valueListenable: selectedGenre,
                   builder: (BuildContext context, value, Widget? child) {

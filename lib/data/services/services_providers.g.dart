@@ -52,7 +52,7 @@ final class GoogleSignInServiceProvider
 }
 
 String _$googleSignInServiceHash() =>
-    r'8181dbf8b01ff5c3b885d21362b7665a2d4167ed';
+    r'72f616ec6ecce32376fba07999fbca173009cd02';
 
 @ProviderFor(localStorageService)
 const localStorageServiceProvider = LocalStorageServiceProvider._();
@@ -141,7 +141,7 @@ final class AuthServiceProvider
   }
 }
 
-String _$authServiceHash() => r'0ec29a3b3d1d112a0e94b59b92eda9ba461fa04d';
+String _$authServiceHash() => r'31a8a9a10730e10286fb81ccf5021779585ae9b4';
 
 @ProviderFor(tmdbService)
 const tmdbServiceProvider = TmdbServiceProvider._();
@@ -182,7 +182,48 @@ final class TmdbServiceProvider
   }
 }
 
-String _$tmdbServiceHash() => r'5d47855510e06c00e5d8cdc6c7ed012e79720480';
+String _$tmdbServiceHash() => r'4d67db2929abb71234d482e083f507f1fce67715';
+
+@ProviderFor(movieService)
+const movieServiceProvider = MovieServiceProvider._();
+
+final class MovieServiceProvider
+    extends $FunctionalProvider<MovieService, MovieService, MovieService>
+    with $Provider<MovieService> {
+  const MovieServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'movieServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$movieServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<MovieService> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  MovieService create(Ref ref) {
+    return movieService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(MovieService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<MovieService>(value),
+    );
+  }
+}
+
+String _$movieServiceHash() => r'1669235147e0bd3352a8c606cc7c7d97eb64be5b';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

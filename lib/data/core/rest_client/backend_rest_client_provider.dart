@@ -1,7 +1,9 @@
+import 'package:cine_box/cinebox_main_app.dart';
 import 'package:cine_box/config/env.dart';
 import 'package:cine_box/core/result/result.dart';
 import 'package:cine_box/data/services/services_providers.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'backend_rest_client_provider.g.dart';
@@ -20,6 +22,16 @@ class BackendAuthInterceptor extends Interceptor {
       options.headers['Authorization'] = 'Bearer $idToken';
     }
     handler.next(options);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    final DioException(: response) = err;
+    if(response?.statusCode == 401){
+      final localStorage = ref.read(localStorageServiceProvider);
+      localStorage.removeIdToken();
+      Navigator.of(navKey.currentContext!).pushNamedAndRemoveUntil('/login', (_) => false);
+    }
   }
 
 }

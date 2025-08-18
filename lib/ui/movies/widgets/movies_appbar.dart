@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:cine_box/ui/core/themes/colors.dart';
 import 'package:cine_box/ui/core/themes/resources.dart';
+import 'package:cine_box/ui/movies/movies_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,8 +14,28 @@ class MoviesAppbar extends ConsumerStatefulWidget {
 }
 
 class _MoviesAppbarState extends ConsumerState<MoviesAppbar> {
+  Timer? _deBouce;
+  final searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    void onSearchChanged() {
+      final query = searchController.text;
+      if (query.isEmpty) {
+        _deBouce?.cancel();
+        ref.read(moviesViewModelProvider.notifier).fetchMoviesByCategory();
+        FocusScope.of(context).unfocus();
+        return;
+      }
+      if (_deBouce?.isActive ?? false) _deBouce?.cancel();
+      _deBouce = Timer(const Duration(milliseconds: 500), () {
+        ref
+            .read(moviesViewModelProvider.notifier)
+            .fetchMoviesBySearch(query: query);
+        FocusScope.of(context).unfocus();
+      });
+    }
+
     return SliverAppBar(
       expandedHeight: MediaQuery.sizeOf(context).height * 0.25,
       foregroundColor: Colors.black,
@@ -27,6 +51,7 @@ class _MoviesAppbarState extends ConsumerState<MoviesAppbar> {
         title: SizedBox(
           height: 36,
           child: TextFormField(
+            controller: searchController,
             style: TextStyle(
               color: Colors.grey[600],
               fontWeight: FontWeight.w400,
@@ -55,7 +80,22 @@ class _MoviesAppbarState extends ConsumerState<MoviesAppbar> {
                   size: 15,
                 ),
               ),
+              suffixIcon: Visibility(
+                visible: searchController.text.isNotEmpty,
+                child: IconButton(
+                  onPressed: () {
+                    searchController.clear();
+                    onSearchChanged();
+                  },
+                  icon: Icon(
+                      Icons.clear,
+                    size: 15,
+                    color: AppColors.redColor,
+                  ),
+                ),
+              ),
             ),
+            onChanged: (_) => onSearchChanged(),
           ),
         ),
       ),
