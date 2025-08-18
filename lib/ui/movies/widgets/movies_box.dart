@@ -41,6 +41,7 @@ class MoviesBox extends StatelessWidget {
               children: [
                 for (var movie in movies)
                   MovieCard(
+                    key: UniqueKey(),
                     id: movie.id,
                     title: movie.title,
                     year:
@@ -69,6 +70,7 @@ class MoviesBox extends StatelessWidget {
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 8),
                   child: MovieCard(
+                    key: UniqueKey(),
                     id: movie.id,
                     title: movie.title,
                     year:

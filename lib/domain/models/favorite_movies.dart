@@ -1,10 +1,10 @@
-class FavoriteMovies {
+class FavoriteMovie {
   final int id;
   final String posterPath;
   final String title;
   final int year;
 
-  FavoriteMovies({
+  FavoriteMovie({
     required this.id,
     required this.posterPath,
     required this.title,

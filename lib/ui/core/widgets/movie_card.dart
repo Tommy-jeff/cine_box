@@ -1,7 +1,13 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cine_box/ui/core/commands/favorite_movie_command.dart';
+import 'package:cine_box/ui/core/commands/remove_favorite_movie_command.dart';
+import 'package:cine_box/ui/core/commands/save_favorite_movie_command.dart';
 import 'package:cine_box/ui/core/themes/colors.dart';
+import 'package:cine_box/ui/core/widgets/loader_messages.dart';
+import 'package:cine_box/ui/core/widgets/movie_card_view_model.dart';
+import 'package:cine_box/ui/movies/movies_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -28,9 +34,36 @@ class MovieCard extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MovieCardState();
 }
 
-class _MovieCardState extends ConsumerState<MovieCard> {
+class _MovieCardState extends ConsumerState<MovieCard> with LoaderAndMessages {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      ref
+          .read(favoriteMovieCommandProvider(widget.id).notifier)
+          .setFavorite(widget.isFavorite);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isFavorite = ref.watch(favoriteMovieCommandProvider(widget.id));
+    
+    ref.listen(saveFavoriteMovieCommandProvider(widget.key!, widget.id), (_, next){
+      next.whenOrNull(
+        error: (error, stacktrace) {
+          showErrorSnackBar('Desculpe, não foi possível favoritar o título');
+        }
+      );
+    });
+
+    ref.listen(removeFavoriteMovieCommandProvider(widget.key!, widget.id), (_, next){
+      next.whenOrNull(
+          error: (error, stacktrace) {
+            showErrorSnackBar('Desculpe, não foi possível remover dos favoritos este título');
+          }
+      );
+    });
 
     return Stack(
       children: [
@@ -105,11 +138,26 @@ class _MovieCardState extends ConsumerState<MovieCard> {
             child: CircleAvatar(
               backgroundColor: Colors.white,
               child: IconButton(
-                onPressed: widget.onFavoriteTap,
-                icon: widget.isFavorite
+                onPressed: () {
+                  ref
+                      .read(
+                        movieCardViewModelProvider(
+                          widget.key!,
+                          widget.id,
+                        ).notifier,
+                      )
+                      .addOrRemoveFavorite(
+                        id: widget.id,
+                        title: widget.title,
+                        posterPath: widget.imageUrl,
+                        year: widget.year,
+                        favorite: !isFavorite,
+                      );
+                },
+                icon: isFavorite
                     ? Icon(Icons.favorite, size: 20)
                     : Icon(Icons.favorite_outline, size: 20),
-                color: AppColors.redColor,
+                color: isFavorite ? AppColors.redColor : AppColors.lightGrey,
               ),
             ),
           ),

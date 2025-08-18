@@ -31,12 +31,12 @@ class MovieMapper {
         .toList();
   }
 
-  static List<FavoriteMovies> mapToFavorites(
+  static List<FavoriteMovie> mapToFavorites(
     List<FavoriteMovieResponse> favoriteMoviesResponse,
   ) {
     return favoriteMoviesResponse
         .map(
-          (response) => FavoriteMovies(
+          (response) => FavoriteMovie(
             id: response.movieId,
             posterPath: response.posterUrl,
             title: response.title,

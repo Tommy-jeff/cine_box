@@ -22,7 +22,7 @@ class GetMoviesByGenreUsecase {
     ]);
 
     if (results case [
-      Success<List<FavoriteMovies>>(value: final favorites),
+      Success<List<FavoriteMovie>>(value: final favorites),
       Success<List<Movie>>(value: final movies),
     ]) {
       final favoritesIDs = favorites.map((f) => f.id).toList();

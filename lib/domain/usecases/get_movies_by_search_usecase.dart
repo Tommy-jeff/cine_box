@@ -21,7 +21,7 @@ class GetMoviesBySearchUsecase {
       _tmdbRepository.searchMovies(query: query),
     ]);
     if (results case [
-      Success<List<FavoriteMovies>>(value: final favorites),
+      Success<List<FavoriteMovie>>(value: final favorites),
       Success<List<Movie>>(value: final movies),
     ]) {
       var favoritesIDs = favorites.map((f) => f.id).toList();

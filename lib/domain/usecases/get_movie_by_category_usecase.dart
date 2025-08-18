@@ -25,7 +25,7 @@ class GetMoviesByCategoryUsecase {
       _tmdbRepository.getUpcomingMovies(),
     ]);
     if (results case [
-      Success<List<FavoriteMovies>>(value: final favorites),
+      Success<List<FavoriteMovie>>(value: final favorites),
       Success<List<Movie>>(value: final popular),
       Success<List<Movie>>(value: final topRated),
       Success<List<Movie>>(value: final nowPlaying),
